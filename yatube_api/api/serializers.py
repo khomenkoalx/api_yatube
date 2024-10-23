@@ -1,17 +1,15 @@
 from rest_framework import serializers
+
 from posts.models import Post, Comment, Group
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    author = serializers.SerializerMethodField()
-    post = serializers.PrimaryKeyRelatedField(read_only=True)
+    author = serializers.StringRelatedField()
 
     class Meta:
         model = Comment
         fields = ['id', 'created', 'author', 'text', 'post']
-
-    def get_author(self, obj):
-        return str(obj.author)
+        read_only_fields = ['post']
 
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -21,8 +19,7 @@ class GroupSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    author = serializers.SerializerMethodField()
-    comments = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
+    author = serializers.StringRelatedField()
 
     class Meta:
         model = Post
@@ -36,5 +33,3 @@ class PostSerializer(serializers.ModelSerializer):
             'comments'
         ]
 
-    def get_author(self, obj):
-        return str(obj.author)
