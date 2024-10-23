@@ -2,14 +2,14 @@ from rest_framework import viewsets
 from rest_framework.generics import get_object_or_404
 
 from posts.models import Post, Group
-from .permissions import IsAuthorOrAuthenticatedReadOnly
+from .permissions import IsAuthorOrIsAuthenticated
 from .serializers import PostSerializer, CommentSerializer, GroupSerializer
 
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [IsAuthorOrAuthenticatedReadOnly]
+    permission_classes = [IsAuthorOrIsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -17,7 +17,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
-    permission_classes = [IsAuthorOrAuthenticatedReadOnly]
+    permission_classes = [IsAuthorOrIsAuthenticated]
 
     def get_queryset(self):
         post = self.get_post()
