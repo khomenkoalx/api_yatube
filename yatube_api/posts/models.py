@@ -30,10 +30,7 @@ class Post(models.Model):
     )
 
     def __str__(self):
-        truncated_text = (
-            self.text[:35] + '...' if len(self.text) > 35 else self.text
-        )
-        return (f'{truncated_text} (Автор - {self.author.username}. '
+        return (f'{self.text[:35]} (Автор - {self.author.username}. '
                 f'Опубликовано - {self.pub_date.strftime("%Y-%m-%d %H:%M")})')
 
 
