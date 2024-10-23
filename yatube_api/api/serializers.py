@@ -32,4 +32,3 @@ class PostSerializer(serializers.ModelSerializer):
             'group',
             'comments'
         ]
-
